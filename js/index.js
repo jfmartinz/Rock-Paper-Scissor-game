@@ -1,42 +1,35 @@
-function getComputerChoice() {
-    const choices = ['rock', 'paper', 'scissors'];
-    const randomIndex = Math.floor(Math.random() * choices.length);
-    return choices[randomIndex];
-}
+const rockBtn = document.getElementById("rock");
+const paperBtn = document.getElementById("paper");
+const scissorsBtn = document.getElementById("scissors");
+const result = document.getElementById("result");
 
-function playRound(playerSelection, computerSelection) {
-    if (playerSelection === computerSelection) {
-        return 'Tie!';
-    } else if (playerSelection === 'rock' && computerSelection === 'scissors' ||
-        playerSelection === 'paper' && computerSelection === 'rock' ||
-        playerSelection === 'scissors' && computerSelection === 'paper') {
-        return "Player win! " + playerSelection + " beats " + computerSelection;
+// add event listeners to the buttons
+rockBtn.addEventListener("click", playGame);
+paperBtn.addEventListener("click", playGame);
+scissorsBtn.addEventListener("click", playGame);
+
+// function that handles the game logic
+function playGame(event) {
+    // get the user's choice
+    const userChoice = event.target.id;
+
+    // generate a random choice for the computer
+    const choices = ["rock", "paper", "scissors"];
+    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+    // determine the winner
+    if (userChoice === computerChoice) {
+        result.textContent = "Result: " + "It's a tie!";
+        result.style.fontSize = '1.5rem';
+    } else if (
+        (userChoice === "rock" && computerChoice === "scissors") ||
+        (userChoice === "paper" && computerChoice === "rock") ||
+        (userChoice === "scissors" && computerChoice === "paper")
+    ) {
+        result.textContent = "Result: " + "You win!";
+        result.style.fontSize = '1.5rem';
     } else {
-        return "Computer win! " + computerSelection + " beats " + playerSelection;
+        result.textContent = "Result: " + "Computer wins!";
+        result.style.fontSize = '1.5rem';
     }
 }
-
-
-function game(playerSelection) {
-    const computerSelection = getComputerChoice();
-    const resultGame = playRound(playerSelection, computerSelection)
-    document.querySelector('#result').innerHTML = "Result: " + resultGame;
-}
-
-const rockBtn = document.querySelector('#rock');
-const paperBtn = document.querySelector('#paper');
-const scissorsBtn = document.querySelector('#scissors');
-
-
-
-rockBtn.addEventListener('click', () => {
-    game('rock');
-});
-
-paperBtn.addEventListener('click', () => {
-    game('paper');
-});
-
-scissorsBtn.addEventListener('click', () => {
-    game('scissors');
-});
